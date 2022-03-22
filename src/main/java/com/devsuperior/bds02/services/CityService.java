@@ -23,4 +23,9 @@ public class CityService {
                 .map(CityDTO::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public CityDTO insert(CityDTO dto) {
+        return new CityDTO(repository.save(dto.toEntity()));
+    }
 }

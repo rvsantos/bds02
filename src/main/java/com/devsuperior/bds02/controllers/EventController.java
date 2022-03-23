@@ -17,8 +17,8 @@ public class EventController {
     @Autowired
     private EventService service;
 
-    @PutMapping("/{id}")
-    public ResponseEntity<EventDTO> insert(@PathVariable Long id, @RequestBody EventDTO dto) {
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<EventDTO> update(@PathVariable Long id, @RequestBody EventDTO dto) {
         return ResponseEntity.ok().body(service.update(id, dto));
     }
 }

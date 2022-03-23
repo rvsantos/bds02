@@ -11,6 +11,7 @@ import com.devsuperior.bds02.repositories.EventRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EventService {
@@ -23,10 +24,11 @@ public class EventService {
     @Autowired
     private CityRepository cityRepository;
 
+    @Transactional
     public EventDTO update(Long id, EventDTO dto) {
         try {
             Event event = repository.getOne(id);
-            City city = cityRepository.getOne(dto.getCityId());
+            City city = cityRepository.findById(dto.getCityId()).orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND + dto.getCityId()));
             var entity = repository.save(dto.copyDtoToEntity(event, city));
             return new EventDTO(entity);
         } catch (EntityNotFoundException e) {
